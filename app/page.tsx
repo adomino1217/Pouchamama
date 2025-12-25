@@ -193,4 +193,7 @@ export default function HomePage() {
       <ProductModal product={selectedProduct} isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   )
+}export default function Home() {
+  return <h1>Pouchamama</h1>;
 }
+
