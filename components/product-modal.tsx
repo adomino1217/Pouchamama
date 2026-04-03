@@ -4,8 +4,11 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import type { Product } from "@/lib/products"
+import { toPEN } from "@/lib/products"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/cart-context"
+import { useLanguage } from "@/lib/language-context"
+import { productDescriptions, ingredientNames } from "@/lib/i18n"
 import { PeruMap } from "@/components/peru-map"
 
 interface ProductModalProps {
@@ -15,6 +18,7 @@ interface ProductModalProps {
 }
 
 export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
+  const { t, language } = useLanguage()
   const [currentPage, setCurrentPage] = useState(0)
   const { addItem } = useCart()
 
@@ -86,7 +90,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
             </div>
             <div>
               <h2 className="font-display font-bold text-xl text-foreground mb-1">{product.name}</h2>
-              <p className="text-sm text-muted-foreground">{product.description}</p>
+              <p className="text-sm text-muted-foreground">{productDescriptions[language][product.id] ?? product.description}</p>
             </div>
           </div>
         </div>
@@ -95,7 +99,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
         <div className="p-6 overflow-y-auto max-h-[60vh]">
           {currentPage === 0 ? (
             <div className="space-y-4">
-              <h3 className="font-display font-bold text-lg text-primary">Ingredient Origins</h3>
+              <h3 className="font-display font-bold text-lg text-primary">{t.product.ingredientOrigins}</h3>
 
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Peru Map */}
@@ -105,7 +109,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
                 {/* Legend */}
                 <div className="md:w-48">
-                  <h4 className="font-display font-semibold text-sm text-foreground mb-3">Sourced From</h4>
+                  <h4 className="font-display font-semibold text-sm text-foreground mb-3">{t.product.sourcedFrom}</h4>
                   <ul className="space-y-2">
                     {product.ingredients.map((ing, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-sm">
@@ -116,7 +120,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                           }}
                         />
                         <div>
-                          <span className="font-medium text-foreground">{ing.name}</span>
+                          <span className="font-medium text-foreground">{(ingredientNames[language] as Record<string, string>)[ing.name] ?? ing.name}</span>
                           <span className="text-muted-foreground"> — {ing.region}</span>
                         </div>
                       </li>
@@ -127,20 +131,20 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
             </div>
           ) : (
             <div className="space-y-4">
-              <h3 className="font-display font-bold text-lg text-primary">Nutrition & Macros</h3>
+              <h3 className="font-display font-bold text-lg text-primary">{t.product.nutrition}</h3>
 
               <div className="grid grid-cols-2 gap-4">
                 {[
                   {
-                    label: "Calories",
+                    label: t.product.calories,
                     value: product.calories,
                     daily: dailyNeeds.calories,
                     unit: "cal",
                     color: "#4E6627",
                   },
-                  { label: "Protein", value: product.protein, daily: dailyNeeds.protein, unit: "g", color: "#6C8B37" },
-                  { label: "Carbs", value: product.carbs, daily: dailyNeeds.carbs, unit: "g", color: "#A7C26F" },
-                  { label: "Fat", value: product.fat, daily: dailyNeeds.fat, unit: "g", color: "#F7C646" },
+                  { label: t.product.protein, value: product.protein, daily: dailyNeeds.protein, unit: "g", color: "#6C8B37" },
+                  { label: t.product.carbs, value: product.carbs, daily: dailyNeeds.carbs, unit: "g", color: "#A7C26F" },
+                  { label: t.product.fat, value: product.fat, daily: dailyNeeds.fat, unit: "g", color: "#F7C646" },
                 ].map((macro) => {
                   const percentage = Math.round((macro.value / macro.daily) * 100)
                   return (
@@ -161,19 +165,19 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                           }}
                         />
                       </div>
-                      <span className="text-xs text-muted-foreground mt-1 block">{percentage}% of daily needs</span>
+                      <span className="text-xs text-muted-foreground mt-1 block">{percentage}{t.product.dailyNeeds}</span>
                     </div>
                   )
                 })}
               </div>
 
               <p className="text-xs text-muted-foreground italic bg-warm-beige/30 p-3 rounded-xl">
-                Daily needs vary by activity level; built for mountain days with higher caloric demands.
+                {t.product.dailyNote}
               </p>
 
               {product.allergens.length > 0 && (
                 <div className="pt-2">
-                  <span className="text-sm font-medium text-foreground">Allergens: </span>
+                  <span className="text-sm font-medium text-foreground">{t.product.allergens}: </span>
                   <span className="text-sm text-muted-foreground">{product.allergens.join(", ")}</span>
                 </div>
               )}
@@ -206,12 +210,15 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
             </div>
 
             {/* Add to Cart */}
-            <Button
-              onClick={handleAddToCart}
-              className="rounded-full font-display bg-primary hover:bg-forest-green px-6"
-            >
-              Add to Cart — ${product.price.toFixed(2)}
-            </Button>
+            <div className="flex flex-col items-end gap-0.5">
+              <Button
+                onClick={handleAddToCart}
+                className="rounded-full font-display bg-primary hover:bg-forest-green px-6"
+              >
+                {t.product.addToCart} — ${product.price.toFixed(2)}
+              </Button>
+              <span className="text-xs text-muted-foreground font-display pr-1">{toPEN(product.pricePEN)}</span>
+            </div>
           </div>
         </div>
       </div>

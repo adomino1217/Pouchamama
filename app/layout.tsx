@@ -1,14 +1,17 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Quicksand } from "next/font/google"
+import { Inter, Syne } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { Navbar } from "@/components/navbar"
+import { SplashOverlay } from "@/components/splash-overlay"
 import { CartProvider } from "@/lib/cart-context"
+import { LanguageProvider } from "@/lib/language-context"
 
 const inter = Inter({ subsets: ["latin"] })
-const quicksand = Quicksand({
+const syne = Syne({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-display",
 })
 
@@ -26,11 +29,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${quicksand.variable} antialiased`}>
-        <CartProvider>
-          <Navbar />
-          <main>{children}</main>
-        </CartProvider>
+      <body className={`${inter.className} ${syne.variable} antialiased`}>
+        <LanguageProvider>
+          <CartProvider>
+            <SplashOverlay />
+            <Navbar />
+            <main>{children}</main>
+          </CartProvider>
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>

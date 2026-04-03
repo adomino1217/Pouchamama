@@ -6,14 +6,9 @@ import { Plus, Minus, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-rea
 import { products } from "@/lib/products"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/cart-context"
+import { useLanguage } from "@/lib/language-context"
 
 type Goal = "high-protein" | "balanced" | "lightweight"
-
-const goals: { value: Goal; label: string; description: string }[] = [
-  { value: "high-protein", label: "High Protein", description: "Maximize protein for muscle recovery" },
-  { value: "balanced", label: "Balanced", description: "Well-rounded nutrition for all-day energy" },
-  { value: "lightweight", label: "Lightweight", description: "Lower calories, lighter pack weight" },
-]
 
 interface DayPlan {
   [productId: string]: number
@@ -21,10 +16,17 @@ interface DayPlan {
 
 export default function MealPlanPage() {
   const { addItem } = useCart()
+  const { t } = useLanguage()
   const [tripLength, setTripLength] = useState(3)
   const [goal, setGoal] = useState<Goal>("balanced")
   const [currentDay, setCurrentDay] = useState(1)
   const [mealPlans, setMealPlans] = useState<{ [day: number]: DayPlan }>({})
+
+  const goals: { value: Goal; label: string; description: string }[] = [
+    { value: "high-protein", label: t.mealPlan.goalHighProtein, description: t.mealPlan.goalHighProteinDesc },
+    { value: "balanced", label: t.mealPlan.goalBalanced, description: t.mealPlan.goalBalancedDesc },
+    { value: "lightweight", label: t.mealPlan.goalLightweight, description: t.mealPlan.goalLightweightDesc },
+  ]
 
   // Filter products based on goal
   const recommendedProducts = useMemo(() => {
@@ -142,9 +144,9 @@ export default function MealPlanPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="font-display font-bold text-3xl md:text-4xl text-foreground mb-4">Design Your Meal Plan</h1>
+          <h1 className="font-display font-bold text-3xl md:text-4xl text-foreground mb-4">{t.mealPlan.title}</h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Plan your adventure meals day by day. We'll help you build the perfect trail nutrition.
+            {t.mealPlan.sub}
           </p>
         </div>
 
@@ -153,7 +155,7 @@ export default function MealPlanPage() {
           <div className="flex flex-col md:flex-row gap-6 md:items-end">
             {/* Trip Length */}
             <div className="flex-1">
-              <label className="font-display font-semibold text-sm text-foreground mb-3 block">Trip Length</label>
+              <label className="font-display font-semibold text-sm text-foreground mb-3 block">{t.mealPlan.tripLength}</label>
               <div className="flex items-center gap-3">
                 {[1, 2, 3, 4, 5, 6, 7].map((days) => (
                   <button
@@ -171,13 +173,13 @@ export default function MealPlanPage() {
                     {days}
                   </button>
                 ))}
-                <span className="text-sm text-muted-foreground ml-2">days</span>
+                <span className="text-sm text-muted-foreground ml-2">{t.mealPlan.days}</span>
               </div>
             </div>
 
             {/* Goal */}
             <div className="flex-1">
-              <label className="font-display font-semibold text-sm text-foreground mb-3 block">Goal</label>
+              <label className="font-display font-semibold text-sm text-foreground mb-3 block">{t.mealPlan.goal}</label>
               <div className="flex flex-wrap gap-2">
                 {goals.map((g) => (
                   <button
@@ -239,10 +241,10 @@ export default function MealPlanPage() {
 
             {/* Day Header */}
             <div className="flex items-center justify-between mb-6">
-              <h2 className="font-display font-bold text-xl text-foreground">Day {currentDay}</h2>
+              <h2 className="font-display font-bold text-xl text-foreground">{t.mealPlan.day} {currentDay}</h2>
               {Object.keys(currentDayPlan).length > 0 && (
                 <button onClick={clearDay} className="text-sm text-muted-foreground hover:text-destructive">
-                  Clear day
+                  {t.mealPlan.clearDay}
                 </button>
               )}
             </div>
@@ -251,7 +253,7 @@ export default function MealPlanPage() {
             {Object.keys(currentDayPlan).length > 0 && (
               <div className="bg-card rounded-2xl p-4 mb-6 shadow-sm">
                 <h3 className="font-display font-semibold text-sm text-muted-foreground mb-3">
-                  Selected for Day {currentDay}
+                  {t.mealPlan.selectedForDay} {currentDay}
                 </h3>
                 <div className="space-y-3">
                   {Object.entries(currentDayPlan).map(([productId, qty]) => {
@@ -270,7 +272,7 @@ export default function MealPlanPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-display font-medium text-sm text-foreground truncate">{product.name}</p>
-                          <p className="text-xs text-muted-foreground">{product.calories} cal</p>
+                          <p className="text-xs text-muted-foreground">{product.calories} {t.mealPlan.cal}</p>
                         </div>
                         <div className="flex items-center gap-2">
                           <button
@@ -296,10 +298,10 @@ export default function MealPlanPage() {
 
             {/* Available Products */}
             <h3 className="font-display font-semibold text-sm text-muted-foreground mb-4">
-              Add meals to Day {currentDay}
+              {t.mealPlan.addMealsToDay} {currentDay}
               {goal !== "balanced" && (
                 <span className="ml-2 text-line-green">
-                  (showing {goal === "high-protein" ? "high protein" : "lightweight"} options)
+                  ({goal === "high-protein" ? t.mealPlan.showingHighProtein : t.mealPlan.showingLightweight})
                 </span>
               )}
             </h3>
@@ -322,7 +324,7 @@ export default function MealPlanPage() {
                   <div className="flex-1 min-w-0">
                     <p className="font-display font-medium text-foreground truncate">{product.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {product.calories} cal · {product.protein}g protein
+                      {product.calories} {t.mealPlan.cal} · {product.protein}g {t.mealPlan.protein}
                     </p>
                   </div>
                   <Button
@@ -340,27 +342,27 @@ export default function MealPlanPage() {
           {/* Sidebar Summary */}
           <aside className="lg:w-80 shrink-0">
             <div className="bg-card rounded-2xl p-6 shadow-sm sticky top-24">
-              <h3 className="font-display font-bold text-lg text-foreground mb-4">Plan Summary</h3>
+              <h3 className="font-display font-bold text-lg text-foreground mb-4">{t.mealPlan.planSummary}</h3>
 
               {/* Day Totals */}
               <div className="mb-6">
-                <h4 className="font-display font-semibold text-sm text-muted-foreground mb-3">Day {currentDay}</h4>
+                <h4 className="font-display font-semibold text-sm text-muted-foreground mb-3">{t.mealPlan.day} {currentDay}</h4>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-muted/30 rounded-xl p-3 text-center">
                     <p className="font-bold text-lg text-primary">{dayTotals.calories}</p>
-                    <p className="text-xs text-muted-foreground">calories</p>
+                    <p className="text-xs text-muted-foreground">{t.mealPlan.calories}</p>
                   </div>
                   <div className="bg-muted/30 rounded-xl p-3 text-center">
                     <p className="font-bold text-lg text-line-green">{dayTotals.protein}g</p>
-                    <p className="text-xs text-muted-foreground">protein</p>
+                    <p className="text-xs text-muted-foreground">{t.mealPlan.protein}</p>
                   </div>
                   <div className="bg-muted/30 rounded-xl p-3 text-center">
                     <p className="font-bold text-lg text-leaf-green">{dayTotals.carbs}g</p>
-                    <p className="text-xs text-muted-foreground">carbs</p>
+                    <p className="text-xs text-muted-foreground">{t.mealPlan.carbs}</p>
                   </div>
                   <div className="bg-muted/30 rounded-xl p-3 text-center">
                     <p className="font-bold text-lg text-sun-yellow">{dayTotals.fat}g</p>
-                    <p className="text-xs text-muted-foreground">fat</p>
+                    <p className="text-xs text-muted-foreground">{t.mealPlan.fat}</p>
                   </div>
                 </div>
               </div>
@@ -368,19 +370,19 @@ export default function MealPlanPage() {
               {/* Trip Totals */}
               <div className="border-t border-border pt-6 mb-6">
                 <h4 className="font-display font-semibold text-sm text-muted-foreground mb-3">
-                  Full Trip ({tripLength} days)
+                  {t.mealPlan.fullTrip} ({tripLength} {t.mealPlan.days})
                 </h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Total items</span>
-                    <span className="font-medium text-foreground">{tripTotals.items} meals</span>
+                    <span className="text-muted-foreground">{t.mealPlan.totalItems}</span>
+                    <span className="font-medium text-foreground">{tripTotals.items} {t.mealPlan.meals}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Total calories</span>
+                    <span className="text-muted-foreground">{t.mealPlan.totalCalories}</span>
                     <span className="font-medium text-foreground">{tripTotals.calories.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Total protein</span>
+                    <span className="text-muted-foreground">{t.mealPlan.totalProtein}</span>
                     <span className="font-medium text-foreground">{tripTotals.protein}g</span>
                   </div>
                 </div>
@@ -393,11 +395,11 @@ export default function MealPlanPage() {
                 onClick={handleAddAllToCart}
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
-                Add All to Cart
+                {t.mealPlan.addAllToCart}
               </Button>
 
               {tripTotals.items === 0 && (
-                <p className="text-xs text-muted-foreground text-center mt-3">Select meals for your trip to continue</p>
+                <p className="text-xs text-muted-foreground text-center mt-3">{t.mealPlan.selectMeals}</p>
               )}
             </div>
           </aside>

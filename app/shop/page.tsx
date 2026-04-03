@@ -8,24 +8,21 @@ import { ProductModal } from "@/components/product-modal"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
+import { useLanguage } from "@/lib/language-context"
+import { interpolate } from "@/lib/i18n"
 
 type DietFilter = "vegan" | "vegetarian" | "high-protein"
 type AllergenFilter = "dairy" | "nuts" | "soy" | "coconut"
+type HungerFilter = "all" | "meals" | "snacks"
 
-const dietOptions: { value: DietFilter; label: string }[] = [
-  { value: "vegan", label: "Vegan" },
-  { value: "vegetarian", label: "Vegetarian" },
-  { value: "high-protein", label: "High Protein" },
-]
+const SNACK_IDS = new Set(["8", "10"])
 
-const allergenOptions: { value: AllergenFilter; label: string }[] = [
-  { value: "dairy", label: "Dairy-free" },
-  { value: "nuts", label: "Nut-free" },
-  { value: "soy", label: "Soy-free" },
-  { value: "coconut", label: "Coconut-free" },
-]
+const PHOTO_IDS = new Set(["1", "2", "7", "8", "9", "10"])
+
+const MAX_CALORIES = Math.ceil(Math.max(...products.map(p => p.calories)) / 100) * 100
 
 export default function ShopPage() {
+  const { t } = useLanguage()
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
@@ -33,7 +30,21 @@ export default function ShopPage() {
   // Filters
   const [dietFilters, setDietFilters] = useState<DietFilter[]>([])
   const [excludeAllergens, setExcludeAllergens] = useState<AllergenFilter[]>([])
-  const [calorieRange, setCalorieRange] = useState([200, 600])
+  const [calorieRange, setCalorieRange] = useState([0, MAX_CALORIES])
+  const [hungerFilter, setHungerFilter] = useState<HungerFilter>("all")
+
+  const dietOptions: { value: DietFilter; label: string }[] = [
+    { value: "vegan", label: t.product.categoryVegan },
+    { value: "vegetarian", label: t.product.categoryVegetarian },
+    { value: "high-protein", label: t.product.categoryHighProtein },
+  ]
+
+  const allergenOptions: { value: AllergenFilter; label: string }[] = [
+    { value: "dairy", label: t.shop.dairyFree },
+    { value: "nuts", label: t.shop.nutFree },
+    { value: "soy", label: t.shop.soyFree },
+    { value: "coconut", label: t.shop.coconutFree },
+  ]
 
   const handleViewDetails = (product: Product) => {
     setSelectedProduct(product)
@@ -51,11 +62,16 @@ export default function ShopPage() {
   const clearFilters = () => {
     setDietFilters([])
     setExcludeAllergens([])
-    setCalorieRange([200, 600])
+    setCalorieRange([0, MAX_CALORIES])
+    setHungerFilter("all")
   }
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
+      // How Hungry filter
+      if (hungerFilter === "snacks" && !SNACK_IDS.has(product.id)) return false
+      if (hungerFilter === "meals" && SNACK_IDS.has(product.id)) return false
+
       // Diet filter
       if (dietFilters.length > 0 && !dietFilters.includes(product.category)) {
         return false
@@ -74,20 +90,31 @@ export default function ShopPage() {
       }
 
       return true
+    }).sort((a, b) => {
+      const aHasPhoto = PHOTO_IDS.has(a.id) ? 0 : 1
+      const bHasPhoto = PHOTO_IDS.has(b.id) ? 0 : 1
+      return aHasPhoto - bHasPhoto
     })
-  }, [dietFilters, excludeAllergens, calorieRange])
+  }, [dietFilters, excludeAllergens, calorieRange, hungerFilter])
 
   const hasActiveFilters =
-    dietFilters.length > 0 || excludeAllergens.length > 0 || calorieRange[0] > 200 || calorieRange[1] < 600
+    dietFilters.length > 0 || excludeAllergens.length > 0 || calorieRange[0] > 0 || calorieRange[1] < MAX_CALORIES || hungerFilter !== "all"
+
+  const showingLabel =
+    hungerFilter === "snacks"
+      ? interpolate(t.shop.showingSnacks, filteredProducts.length)
+      : hungerFilter === "meals"
+      ? interpolate(t.shop.showingMeals, filteredProducts.length)
+      : interpolate(t.shop.showingAll, filteredProducts.length)
 
   return (
     <div className="min-h-screen py-8 md:py-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="font-display font-bold text-3xl md:text-4xl text-foreground mb-4">Shop All Meals</h1>
+          <h1 className="font-display font-bold text-3xl md:text-4xl text-foreground mb-4">{t.shop.title}</h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Discover our full range of freeze-dried Peruvian meals — crafted for flavor, optimized for the trail.
+            {t.shop.shopSub}
           </p>
         </div>
 
@@ -99,7 +126,7 @@ export default function ShopPage() {
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="w-4 h-4 mr-2" />
-            {showFilters ? "Hide Filters" : "Show Filters"}
+            {showFilters ? `${t.shop.filters} ▲` : `${t.shop.filters} ▼`}
             {hasActiveFilters && (
               <span className="ml-2 w-5 h-5 bg-sun-yellow text-foreground text-xs rounded-full flex items-center justify-center">
                 !
@@ -113,20 +140,43 @@ export default function ShopPage() {
           <aside className={`md:w-64 shrink-0 ${showFilters ? "block" : "hidden md:block"}`}>
             <div className="bg-card rounded-2xl p-6 shadow-sm sticky top-24">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="font-display font-bold text-lg text-foreground">Filters</h2>
+                <h2 className="font-display font-bold text-lg text-foreground">{t.shop.filters}</h2>
                 {hasActiveFilters && (
                   <button
                     onClick={clearFilters}
                     className="text-sm text-line-green hover:text-primary transition-colors"
                   >
-                    Clear all
+                    {t.shop.clearFilters}
                   </button>
                 )}
               </div>
 
+              {/* How Hungry? */}
+              <div className="mb-6">
+                <h3 className="font-display font-semibold text-sm text-foreground mb-3">{t.shop.howHungry}</h3>
+                <div className="flex gap-2">
+                  {(["all", "meals", "snacks"] as HungerFilter[]).map((option) => {
+                    const label = option === "all" ? t.shop.all : option === "meals" ? t.shop.meals : t.shop.snacks
+                    return (
+                    <button
+                      key={option}
+                      onClick={() => setHungerFilter(option)}
+                      className="flex-1 py-2 text-xs font-display font-bold rounded-full transition-all"
+                      style={{
+                        backgroundColor: hungerFilter === option ? "#1e5c35" : "transparent",
+                        color: hungerFilter === option ? "#F7F2E4" : "#4a7030",
+                        border: "1.5px solid #3b8c2a",
+                      }}
+                    >
+                      {label}
+                    </button>
+                  )})}
+                </div>
+              </div>
+
               {/* Diet Type */}
               <div className="mb-6">
-                <h3 className="font-display font-semibold text-sm text-foreground mb-3">Diet Type</h3>
+                <h3 className="font-display font-semibold text-sm text-foreground mb-3">{t.shop.dietType}</h3>
                 <div className="space-y-3">
                   {dietOptions.map((option) => (
                     <label key={option.value} className="flex items-center gap-3 cursor-pointer group">
@@ -146,13 +196,13 @@ export default function ShopPage() {
               {/* Calorie Range */}
               <div className="mb-6">
                 <h3 className="font-display font-semibold text-sm text-foreground mb-3">
-                  Calories: {calorieRange[0]} - {calorieRange[1]}
+                  {t.shop.calorieRange}: {calorieRange[0]} - {calorieRange[1]}
                 </h3>
                 <Slider
                   value={calorieRange}
                   onValueChange={setCalorieRange}
-                  min={200}
-                  max={600}
+                  min={0}
+                  max={MAX_CALORIES}
                   step={20}
                   className="mt-4"
                 />
@@ -160,7 +210,7 @@ export default function ShopPage() {
 
               {/* Allergen Exclusions */}
               <div>
-                <h3 className="font-display font-semibold text-sm text-foreground mb-3">Exclude Allergens</h3>
+                <h3 className="font-display font-semibold text-sm text-foreground mb-3">{t.shop.excludeAllergens}</h3>
                 <div className="space-y-3">
                   {allergenOptions.map((option) => (
                     <label key={option.value} className="flex items-center gap-3 cursor-pointer group">
@@ -184,6 +234,14 @@ export default function ShopPage() {
             {/* Active Filters Pills */}
             {hasActiveFilters && (
               <div className="flex flex-wrap gap-2 mb-6">
+                {hungerFilter !== "all" && (
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-leaf-green/20 text-line-green rounded-full text-sm font-display">
+                    {hungerFilter === "meals" ? t.shop.meals : t.shop.snacks}
+                    <button onClick={() => setHungerFilter("all")} className="hover:text-primary">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                )}
                 {dietFilters.map((diet) => (
                   <span
                     key={diet}
@@ -200,7 +258,7 @@ export default function ShopPage() {
                     key={allergen}
                     className="inline-flex items-center gap-1 px-3 py-1 bg-warm-beige/50 text-foreground rounded-full text-sm font-display"
                   >
-                    No {allergen}
+                    {allergenOptions.find((a) => a.value === allergen)?.label}
                     <button onClick={() => toggleAllergen(allergen)} className="hover:text-primary">
                       <X className="w-3 h-3" />
                     </button>
@@ -211,7 +269,7 @@ export default function ShopPage() {
 
             {/* Results count */}
             <p className="text-sm text-muted-foreground mb-6">
-              Showing {filteredProducts.length} {filteredProducts.length === 1 ? "meal" : "meals"}
+              {showingLabel}
             </p>
 
             {filteredProducts.length > 0 ? (
@@ -222,13 +280,13 @@ export default function ShopPage() {
               </div>
             ) : (
               <div className="text-center py-16 bg-card rounded-2xl">
-                <p className="font-display text-lg text-muted-foreground mb-4">No meals match your filters.</p>
+                <p className="font-display text-lg text-muted-foreground mb-4">{t.shop.noItems}</p>
                 <Button
                   variant="outline"
                   className="rounded-full font-display border-line-green text-line-green bg-transparent"
                   onClick={clearFilters}
                 >
-                  Clear Filters
+                  {t.shop.clearFilters}
                 </Button>
               </div>
             )}

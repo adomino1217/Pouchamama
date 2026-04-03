@@ -5,36 +5,36 @@
 
 /* POUCHAMAMA brand theme colors */
 :root {
-  --background: #fdf9f0;
-  --foreground: #3a3a3a;
+  --background: #F7F2E4;
+  --foreground: #1c2b12;
   --card: #ffffff;
-  --card-foreground: #3a3a3a;
+  --card-foreground: #1c2b12;
   --popover: #ffffff;
-  --popover-foreground: #3a3a3a;
-  --primary: #4e6627;
-  --primary-foreground: #ffffff;
-  --secondary: #f4da8a;
-  --secondary-foreground: #3a3a3a;
-  --muted: #f4da8a;
-  --muted-foreground: #6c8b37;
-  --accent: #a7c26f;
-  --accent-foreground: #3a3a3a;
+  --popover-foreground: #1c2b12;
+  --primary: #1e5c35;
+  --primary-foreground: #fffdf4;
+  --secondary: #f5c200;
+  --secondary-foreground: #1c2b12;
+  --muted: #fff3c4;
+  --muted-foreground: #4a7030;
+  --accent: #8fcc4a;
+  --accent-foreground: #1c2b12;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: #ffffff;
-  --border: #e8e4d9;
-  --input: #e8e4d9;
-  --ring: #6c8b37;
-  --chart-1: #4e6627;
-  --chart-2: #6c8b37;
-  --chart-3: #a7c26f;
-  --chart-4: #f7c646;
-  --chart-5: #f4da8a;
+  --border: #d8edcc;
+  --input: #d8edcc;
+  --ring: #3b8c2a;
+  --chart-1: #1e5c35;
+  --chart-2: #3b8c2a;
+  --chart-3: #8fcc4a;
+  --chart-4: #f5c200;
+  --chart-5: #fff3c4;
   --radius: 1rem;
-  --sun-yellow: #f7c646;
-  --forest-green: #4e6627;
-  --line-green: #6c8b37;
-  --leaf-green: #a7c26f;
-  --warm-beige: #f4da8a;
+  --sun-yellow: #f5c200;
+  --forest-green: #1e5c35;
+  --line-green: #3b8c2a;
+  --leaf-green: #8fcc4a;
+  --warm-beige: #fff3c4;
 }
 
 .dark {
@@ -121,7 +121,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
