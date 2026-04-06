@@ -74,7 +74,7 @@ export const products: Product[] = [
     description: "Creamy chicken in a mild yellow pepper sauce with walnuts and olives.",
     price: 11.99,
     pricePEN: 34,
-    image: "/creamy-aji-de-gallina-peruvian-chicken-dish.jpg",
+    image: "/aji-de-gallina.jpg",
     category: "high-protein",
     calories: 480,
     protein: 28,
