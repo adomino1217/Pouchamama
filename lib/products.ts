@@ -70,8 +70,8 @@ export const products: Product[] = [
   },
   {
     id: "3",
-    name: "Aji de Gallina Comfort",
-    description: "Creamy chicken in a mild yellow pepper sauce with walnuts and olives.",
+    name: "Aji de Gallina",
+    description: "Creamy chicken in a mild yellow pepper sauce with pecans and olives.",
     price: 11.99,
     pricePEN: 34,
     image: "/aji-de-gallina.jpg",
@@ -82,9 +82,9 @@ export const products: Product[] = [
     fat: 22,
     allergens: ["nuts", "dairy"],
     ingredients: [
-      { name: "Free-range Chicken", region: "La Libertad", x: 25, y: 35 },
+      { name: "Chicken", region: "La Libertad", x: 25, y: 35 },
       { name: "Aji Amarillo", region: "Lima", x: 30, y: 52 },
-      { name: "Walnuts", region: "Ica", x: 32, y: 65 },
+      { name: "Pecans", region: "Ica", x: 32, y: 65 },
       { name: "Black Olives", region: "Tacna", x: 55, y: 95 },
     ],
   },
