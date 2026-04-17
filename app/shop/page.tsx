@@ -17,7 +17,7 @@ type HungerFilter = "all" | "meals" | "snacks"
 
 const SNACK_IDS = new Set(["8", "10", "12", "13"])
 
-const PHOTO_IDS = new Set(["1", "2", "3", "7", "8", "9", "10", "11"])
+const PHOTO_IDS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "13"])
 
 const MAX_CALORIES = Math.ceil(Math.max(...products.map(p => p.calories)) / 100) * 100
 
