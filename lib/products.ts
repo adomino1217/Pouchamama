@@ -5,6 +5,16 @@ export interface IngredientOrigin {
   y: number
 }
 
+export interface ProductSize {
+  weight: string
+  calories: number
+  protein: number
+  carbs: number
+  fat: number
+  price: number
+  pricePEN: number
+}
+
 export interface Product {
   id: string
   name: string
@@ -19,6 +29,7 @@ export interface Product {
   fat: number
   allergens: string[]
   ingredients: IngredientOrigin[]
+  sizes?: ProductSize[]
 }
 
 /** Format a PEN price string, e.g. "S/ 35" */
@@ -109,63 +120,6 @@ export const products: Product[] = [
     ],
   },
   {
-    id: "5",
-    name: "Causa Vegana Stack",
-    description: "Layers of purple potato, avocado, and chickpea filling with lime.",
-    price: 11.99,
-    pricePEN: 33,
-    image: "/causa-peruvian-layered-potato-dish-vegan-colorful.jpg",
-    category: "vegan",
-    calories: 380,
-    protein: 12,
-    carbs: 58,
-    fat: 14,
-    allergens: [],
-    ingredients: [
-      { name: "Purple Potato", region: "Puno", x: 55, y: 78 },
-      { name: "Avocado", region: "La Libertad", x: 25, y: 38 },
-      { name: "Chickpeas", region: "Lambayeque", x: 22, y: 30 },
-      { name: "Lime", region: "Piura", x: 18, y: 25 },
-    ],
-  },
-  {
-    id: "6",
-    name: "Choclo & Cheese Harvest",
-    description: "Giant Andean corn with queso fresco and fresh herbs.",
-    price: 10.99,
-    pricePEN: 31,
-    image: "/choclo-peruvian-corn-with-cheese-traditional.jpg",
-    category: "vegetarian",
-    calories: 340,
-    protein: 15,
-    carbs: 48,
-    fat: 10,
-    allergens: ["dairy"],
-    ingredients: [
-      { name: "Choclo Corn", region: "Cusco", x: 50, y: 58 },
-      { name: "Queso Fresco", region: "Cajamarca", x: 28, y: 32 },
-      { name: "Huacatay", region: "Ayacucho", x: 38, y: 68 },
-      { name: "Rocoto Pepper", region: "Arequipa", x: 45, y: 85 },
-    ],
-  },
-  {
-    id: "10",
-    name: "Peruvian Pineapple",
-    description: "Freeze-dried pineapple from the valleys of Peru. Chewy, crunchy goodness — no additives, just pure fruit. The freeze-drying process locks in over 200% of your daily Vitamin C in every bag.",
-    price: 6.99,
-    pricePEN: 24,
-    image: "/peruvian-pineapple.jpg",
-    category: "vegan",
-    calories: 188,
-    protein: 1,
-    carbs: 44,
-    fat: 0,
-    allergens: [],
-    ingredients: [
-      { name: "Pineapple", region: "Junín", x: 42, y: 52 },
-    ],
-  },
-  {
     id: "8",
     name: "Peruvian Mango",
     description: "Freeze-dried mango from the sun-drenched valleys of Ancash. Eat it straight from the bag — no prep, no rehydration needed. The freeze-drying process locks in all the juice and concentrates that tangy, tropical flavor into a light, crispy snack.",
@@ -173,13 +127,17 @@ export const products: Product[] = [
     pricePEN: 24,
     image: "/peruvian-mango.jpg",
     category: "vegan",
-    calories: 164,
+    calories: 185,
     protein: 1,
-    carbs: 35,
-    fat: 1,
+    carbs: 41,
+    fat: 0,
     allergens: [],
     ingredients: [
       { name: "Mango", region: "Ancash", x: 35, y: 30 },
+    ],
+    sizes: [
+      { weight: "20g", calories: 82, protein: 0.5, carbs: 18, fat: 0, price: 3.99, pricePEN: 14 },
+      { weight: "45g", calories: 185, protein: 1, carbs: 41, fat: 0, price: 6.99, pricePEN: 24 },
     ],
   },
   {
@@ -202,6 +160,27 @@ export const products: Product[] = [
       { name: "Broccoli", region: "Lima", x: 30, y: 52 },
       { name: "Asparagus", region: "Ica", x: 32, y: 65 },
       { name: "Ginger", region: "San Martín", x: 40, y: 35 },
+    ],
+  },
+  {
+    id: "10",
+    name: "Peruvian Pineapple",
+    description: "Freeze-dried pineapple from the valleys of Peru. Chewy, crunchy goodness — no additives, just pure fruit. The freeze-drying process locks in over 200% of your daily Vitamin C in every bag.",
+    price: 6.99,
+    pricePEN: 24,
+    image: "/peruvian-pineapple.jpg",
+    category: "vegan",
+    calories: 169,
+    protein: 1,
+    carbs: 40,
+    fat: 0.5,
+    allergens: [],
+    ingredients: [
+      { name: "Pineapple", region: "Junín", x: 42, y: 52 },
+    ],
+    sizes: [
+      { weight: "20g", calories: 75, protein: 0, carbs: 18, fat: 0, price: 3.99, pricePEN: 14 },
+      { weight: "45g", calories: 169, protein: 1, carbs: 40, fat: 0.5, price: 6.99, pricePEN: 24 },
     ],
   },
   {
@@ -244,6 +223,49 @@ export const products: Product[] = [
       { name: "Rice", region: "San Martín", x: 40, y: 35 },
       { name: "Yellow Pepper", region: "Lima", x: 30, y: 52 },
       { name: "Egg", region: "Arequipa", x: 45, y: 85 },
+    ],
+  },
+  {
+    id: "12",
+    name: "Spicy Mango",
+    description: "Freeze-dried mango with a kick of Peruvian chili and sea salt. All the tropical sweetness of Ancash mango with a slow-building heat that hikers love.",
+    price: 6.99,
+    pricePEN: 24,
+    image: "/spicy-mango.jpg",
+    category: "vegan",
+    calories: 186,
+    protein: 1,
+    carbs: 41,
+    fat: 0,
+    allergens: [],
+    ingredients: [
+      { name: "Mango", region: "Ancash", x: 35, y: 30 },
+      { name: "Rocoto Pepper", region: "Arequipa", x: 45, y: 85 },
+    ],
+    sizes: [
+      { weight: "20g", calories: 83, protein: 0, carbs: 18, fat: 0, price: 3.99, pricePEN: 14 },
+      { weight: "45g", calories: 186, protein: 1, carbs: 41, fat: 0, price: 6.99, pricePEN: 24 },
+    ],
+  },
+  {
+    id: "13",
+    name: "Dragon Fruit",
+    description: "Freeze-dried dragon fruit from the tropical valleys of Peru. Strikingly vibrant, subtly sweet, and packed with fiber and antioxidants. A trail snack unlike anything else.",
+    price: 6.99,
+    pricePEN: 24,
+    image: "/dragon-fruit.jpg",
+    category: "vegan",
+    calories: 208,
+    protein: 4,
+    carbs: 45,
+    fat: 0,
+    allergens: [],
+    ingredients: [
+      { name: "Dragon Fruit", region: "La Libertad", x: 25, y: 38 },
+    ],
+    sizes: [
+      { weight: "20g", calories: 92, protein: 2, carbs: 20, fat: 0, price: 3.99, pricePEN: 14 },
+      { weight: "45g", calories: 208, protein: 4, carbs: 45, fat: 0, price: 6.99, pricePEN: 24 },
     ],
   },
 ]

@@ -20,11 +20,13 @@ interface ProductModalProps {
 export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
   const { t, language } = useLanguage()
   const [currentPage, setCurrentPage] = useState(0)
+  const [selectedSizeIdx, setSelectedSizeIdx] = useState(1) // default to 45g
   const { addItem } = useCart()
 
   useEffect(() => {
     if (isOpen) {
       setCurrentPage(0)
+      setSelectedSizeIdx(1)
       document.body.style.overflow = "hidden"
     } else {
       document.body.style.overflow = "unset"
@@ -47,11 +49,22 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
   if (!isOpen || !product) return null
 
+  const hasSizes = product.sizes && product.sizes.length > 0
+  const activeSize = hasSizes ? product.sizes![selectedSizeIdx] : null
+
+  const displayPrice = activeSize ? activeSize.price : product.price
+  const displayPEN = activeSize ? activeSize.pricePEN : product.pricePEN
+  const displayCalories = activeSize ? activeSize.calories : product.calories
+  const displayProtein = activeSize ? activeSize.protein : product.protein
+  const displayCarbs = activeSize ? activeSize.carbs : product.carbs
+  const displayFat = activeSize ? activeSize.fat : product.fat
+
   const handleAddToCart = () => {
+    const sizeSuffix = activeSize ? ` (${activeSize.weight})` : ""
     addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
+      id: `${product.id}${activeSize ? `-${activeSize.weight}` : ""}`,
+      name: `${product.name}${sizeSuffix}`,
+      price: displayPrice,
       image: product.image,
     })
     onClose()
@@ -88,9 +101,30 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                 className="object-cover w-full h-full"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <h2 className="font-display font-bold text-xl text-foreground mb-1">{product.name}</h2>
               <p className="text-sm text-muted-foreground">{productDescriptions[language][product.id] ?? product.description}</p>
+
+              {/* Size picker in header */}
+              {hasSizes && (
+                <div className="flex gap-2 mt-3">
+                  {product.sizes!.map((s, i) => (
+                    <button
+                      key={s.weight}
+                      onClick={() => setSelectedSizeIdx(i)}
+                      className="font-display font-bold text-sm px-4 py-1.5 transition-all"
+                      style={{
+                        borderRadius: "4px",
+                        border: `1.5px solid ${selectedSizeIdx === i ? "#0d3320" : "#ccc"}`,
+                        backgroundColor: selectedSizeIdx === i ? "#0d3320" : "transparent",
+                        color: selectedSizeIdx === i ? "#f5c200" : "#666",
+                      }}
+                    >
+                      {s.weight}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -115,9 +149,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                       <li key={idx} className="flex items-start gap-2 text-sm">
                         <span
                           className="w-3 h-3 rounded-full shrink-0 mt-1"
-                          style={{
-                            backgroundColor: ["#4E6627", "#6C8B37", "#A7C26F", "#F7C646"][idx % 4],
-                          }}
+                          style={{ backgroundColor: ["#4E6627", "#6C8B37", "#A7C26F", "#F7C646"][idx % 4] }}
                         />
                         <div>
                           <span className="font-medium text-foreground">{(ingredientNames[language] as Record<string, string>)[ing.name] ?? ing.name}</span>
@@ -135,16 +167,10 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  {
-                    label: t.product.calories,
-                    value: product.calories,
-                    daily: dailyNeeds.calories,
-                    unit: "cal",
-                    color: "#4E6627",
-                  },
-                  { label: t.product.protein, value: product.protein, daily: dailyNeeds.protein, unit: "g", color: "#6C8B37" },
-                  { label: t.product.carbs, value: product.carbs, daily: dailyNeeds.carbs, unit: "g", color: "#A7C26F" },
-                  { label: t.product.fat, value: product.fat, daily: dailyNeeds.fat, unit: "g", color: "#F7C646" },
+                  { label: t.product.calories, value: displayCalories, daily: dailyNeeds.calories, unit: "cal", color: "#4E6627" },
+                  { label: t.product.protein, value: displayProtein, daily: dailyNeeds.protein, unit: "g", color: "#6C8B37" },
+                  { label: t.product.carbs, value: displayCarbs, daily: dailyNeeds.carbs, unit: "g", color: "#A7C26F" },
+                  { label: t.product.fat, value: displayFat, daily: dailyNeeds.fat, unit: "g", color: "#F7C646" },
                 ].map((macro) => {
                   const percentage = Math.round((macro.value / macro.daily) * 100)
                   return (
@@ -152,17 +178,13 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-display font-semibold text-foreground">{macro.label}</span>
                         <span className="font-bold text-lg" style={{ color: macro.color }}>
-                          {macro.value}
-                          {macro.unit}
+                          {macro.value}{macro.unit}
                         </span>
                       </div>
                       <div className="h-2 bg-background rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all"
-                          style={{
-                            width: `${Math.min(percentage, 100)}%`,
-                            backgroundColor: macro.color,
-                          }}
+                          style={{ width: `${Math.min(percentage, 100)}%`, backgroundColor: macro.color }}
                         />
                       </div>
                       <span className="text-xs text-muted-foreground mt-1 block">{percentage}{t.product.dailyNeeds}</span>
@@ -215,9 +237,9 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
                 onClick={handleAddToCart}
                 className="rounded-full font-display bg-primary hover:bg-forest-green px-6"
               >
-                {t.product.addToCart} — ${product.price.toFixed(2)}
+                {t.product.addToCart} — ${displayPrice.toFixed(2)}
               </Button>
-              <span className="text-xs text-muted-foreground font-display pr-1">{toPEN(product.pricePEN)}</span>
+              <span className="text-xs text-muted-foreground font-display pr-1">{toPEN(displayPEN)}</span>
             </div>
           </div>
         </div>

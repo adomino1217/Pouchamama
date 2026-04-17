@@ -846,6 +846,8 @@ export const productDescriptions: Record<Language, Record<string, string>> = {
     "9": "A high-altitude twist on Peruvian fried rice — quinoa stir-fried with eggs, lupini beans, broccoli, asparagus, and ginger. Plant-powered and packed with protein.",
     "10": "Freeze-dried pineapple from the valleys of Peru. Chewy, crunchy goodness — no additives, just pure fruit. The freeze-drying process locks in over 200% of your daily Vitamin C in every bag.",
     "11": "One of Peru's oldest and most revered dishes — dried potato slow-cooked with pork, peanuts, ají panca, and warm spices. Rich, earthy, and deeply nourishing.",
+    "12": "Freeze-dried mango with a kick of Peruvian chili and sea salt. All the tropical sweetness of Ancash mango with a slow-building heat that hikers love.",
+    "13": "Freeze-dried dragon fruit from the tropical valleys of Peru. Strikingly vibrant, subtly sweet, and packed with fiber and antioxidants. A trail snack unlike anything else.",
   },
   es: {
     "1": "Quinoa andina cocinada a fuego lento con pimiento amarillo, calabaza, maíz y zanahoria. Un plato reconfortante de las alturas.",
@@ -859,6 +861,8 @@ export const productDescriptions: Record<Language, Record<string, string>> = {
     "9": "Un giro de altura al arroz frito peruano — quinoa salteada con huevos, chochos, brócoli, espárragos y jengibre. De origen vegetal y cargada de proteínas.",
     "10": "Piña liofilizada de los valles del Perú. Crujiente y sabrosa, sin aditivos, solo fruta pura. El proceso de liofilización concentra más del 200% de tu vitamina C diaria en cada bolsa.",
     "11": "Uno de los platos más antiguos y venerados del Perú — papa seca cocinada a fuego lento con cerdo, maníes, ají panca y especias cálidas. Rico, terroso y profundamente nutritivo.",
+    "12": "Mango liofilizado con un toque de chile peruano y sal marina. Toda la dulzura tropical del mango de Áncash con un picante que los senderistas adoran.",
+    "13": "Pitaya liofilizada de los valles tropicales del Perú. Vibrante, suavemente dulce y llena de fibra y antioxidantes. Un snack de sendero como ningún otro.",
   },
   fr: {
     "1": "Quinoa andin mijoté avec poivron jaune, citrouille, maïs et carotte. Un plat roboratif des hautes terres.",
@@ -872,6 +876,8 @@ export const productDescriptions: Record<Language, Record<string, string>> = {
     "9": "Une version d'altitude du riz frit péruvien — quinoa sauté avec des œufs, des lupins, du brocoli, des asperges et du gingembre. D'origine végétale et riche en protéines.",
     "10": "Ananas lyophilisé des vallées du Pérou. Croquant et savoureux — sans additifs, juste du fruit pur. La lyophilisation préserve plus de 200 % de votre vitamine C quotidienne dans chaque sachet.",
     "11": "L'un des plats les plus anciens et les plus vénérés du Pérou — pomme de terre séchée mijotée avec du porc, des cacahuètes, de l'ají panca et des épices chaudes. Riche, terreux et profondément nourrissant.",
+    "12": "Mangue lyophilisée avec une touche de piment péruvien et de sel de mer. Toute la douceur tropicale de la mangue d'Ancash avec une chaleur progressive adorée des randonneurs.",
+    "13": "Fruit du dragon lyophilisé des vallées tropicales du Pérou. Vibrante, subtilement sucrée et riche en fibres et antioxydants. Un en-cas de trail comme aucun autre.",
   },
   de: {
     "1": "Andine Quinoa langsam gegart mit gelbem Paprika, Kürbis, Mais und Karotte. Ein herzhaftes Eintopfgericht aus dem Hochland.",
@@ -885,6 +891,8 @@ export const productDescriptions: Record<Language, Record<string, string>> = {
     "9": "Eine Höhen-Variante des peruanischen gebratenen Reises — Quinoa angebraten mit Eiern, Lupinenbohnen, Brokkoli, Spargel und Ingwer. Pflanzlich und proteinreich.",
     "10": "Gefriergetrocknete Ananas aus den Tälern Perus. Knusprig und lecker — ohne Zusatzstoffe, nur reines Obst. Die Gefriertrocknung bewahrt über 200 % Ihres täglichen Vitamin-C-Bedarfs in jedem Beutel.",
     "11": "Eines der ältesten und verehrtesten Gerichte Perus — getrocknete Kartoffel langsam gegart mit Schweinefleisch, Erdnüssen, Ají Panca und wärmenden Gewürzen. Reich, erdig und tief nahrhaft.",
+    "12": "Gefriergetrocknete Mango mit peruanischem Chili und Meersalz. Die tropische Süße der Ancash-Mango mit einer langsam aufbauenden Schärfe, die Wanderer lieben.",
+    "13": "Gefriergetrocknete Drachenfrucht aus den tropischen Tälern Perus. Leuchtend, subtil süß und reich an Ballaststoffen und Antioxidantien. Ein Trail-Snack wie kein anderer.",
   },
   nl: {
     "1": "Andese quinoa langzaam gegaard met gele paprika, pompoen, maïs en wortel. Een hartige eenpansmaaltijd uit de hooglanden.",
@@ -898,6 +906,8 @@ export const productDescriptions: Record<Language, Record<string, string>> = {
     "9": "Een hooggelegen variant op Peruaanse gebakken rijst — quinoa gebakken met eieren, lupinebonen, broccoli, asperges en gember. Plantaardig en boordevol eiwitten.",
     "10": "Vriesgedroogde ananas uit de valleien van Peru. Knapperig en smakelijk — geen toevoegingen, alleen puur fruit. Het vriesdroogproces behoudt meer dan 200% van uw dagelijkse vitamine C in elke zak.",
     "11": "Een van Peru's oudste en meest gewaardeerde gerechten — gedroogde aardappel langzaam gestoofd met varkensvlees, pinda's, ají panca en warme kruiden. Rijk, aards en diep voedzaam.",
+    "12": "Gevriesdroogde mango met Peruaanse chili en zeezout. Alle tropische zoetheid van Ancash-mango met een langzaam opbouwende hitte die wandelaars geweldig vinden.",
+    "13": "Gevriesdroogde drakenfruit uit de tropische valleien van Peru. Opvallend levendig, subtiel zoet en vol vezels en antioxidanten. Een trailsnack als geen ander.",
   },
 }
 
@@ -914,7 +924,7 @@ export const ingredientNames: Record<Language, Record<string, string>> = {
     "Rocoto Pepper": "Rocoto Pepper", "Mango": "Mango", "Chicken": "Chicken", "Rice": "Rice", "Egg": "Egg",
     "Eggs": "Eggs", "Lupini Beans": "Lupini Beans", "Broccoli": "Broccoli", "Asparagus": "Asparagus",
     "Ginger": "Ginger", "Green Pepper": "Green Pepper", "Scallions": "Scallions", "Garlic": "Garlic",
-    "Pineapple": "Pineapple",
+    "Pineapple": "Pineapple", "Dragon Fruit": "Dragon Fruit",
     "Papa Seca": "Papa Seca", "Pork Ribs": "Pork Ribs", "Peanuts": "Peanuts", "Ají Panca": "Ají Panca",
   },
   es: {
@@ -928,7 +938,7 @@ export const ingredientNames: Record<Language, Record<string, string>> = {
     "Rocoto Pepper": "Rocoto", "Mango": "Mango", "Chicken": "Pollo", "Rice": "Arroz", "Egg": "Huevo",
     "Eggs": "Huevos", "Lupini Beans": "Chochos", "Broccoli": "Brócoli", "Asparagus": "Espárragos",
     "Ginger": "Jengibre", "Green Pepper": "Pimiento Verde", "Scallions": "Cebolla China", "Garlic": "Ajo",
-    "Pineapple": "Piña",
+    "Pineapple": "Piña", "Dragon Fruit": "Pitaya",
     "Papa Seca": "Papa Seca", "Pork Ribs": "Costillas de Cerdo", "Peanuts": "Maníes", "Ají Panca": "Ají Panca",
   },
   fr: {
@@ -942,7 +952,7 @@ export const ingredientNames: Record<Language, Record<string, string>> = {
     "Rocoto Pepper": "Piment Rocoto", "Mango": "Mangue", "Chicken": "Poulet", "Rice": "Riz", "Egg": "Œuf",
     "Eggs": "Œufs", "Lupini Beans": "Lupins", "Broccoli": "Brocoli", "Asparagus": "Asperges",
     "Ginger": "Gingembre", "Green Pepper": "Poivron Vert", "Scallions": "Ciboules", "Garlic": "Ail",
-    "Pineapple": "Ananas",
+    "Pineapple": "Ananas", "Dragon Fruit": "Fruit du Dragon",
     "Papa Seca": "Papa Seca", "Pork Ribs": "Côtes de Porc", "Peanuts": "Cacahuètes", "Ají Panca": "Ají Panca",
   },
   de: {
@@ -956,7 +966,7 @@ export const ingredientNames: Record<Language, Record<string, string>> = {
     "Rocoto Pepper": "Rocoto-Pfeffer", "Mango": "Mango", "Chicken": "Hühnchen", "Rice": "Reis", "Egg": "Ei",
     "Eggs": "Eier", "Lupini Beans": "Lupinenbohnen", "Broccoli": "Brokkoli", "Asparagus": "Spargel",
     "Ginger": "Ingwer", "Green Pepper": "Grüne Paprika", "Scallions": "Frühlingszwiebeln", "Garlic": "Knoblauch",
-    "Pineapple": "Ananas",
+    "Pineapple": "Ananas", "Dragon Fruit": "Drachenfrucht",
     "Papa Seca": "Papa Seca", "Pork Ribs": "Schweinerippchen", "Peanuts": "Erdnüsse", "Ají Panca": "Ají Panca",
   },
   nl: {
@@ -971,7 +981,7 @@ export const ingredientNames: Record<Language, Record<string, string>> = {
     "Pecans": "Pecannoten",
     "Eggs": "Eieren", "Lupini Beans": "Lupinebonen", "Broccoli": "Broccoli", "Asparagus": "Asperges",
     "Ginger": "Gember", "Green Pepper": "Groene Paprika", "Scallions": "Lente-uitjes", "Garlic": "Knoflook",
-    "Pineapple": "Ananas",
+    "Pineapple": "Ananas", "Dragon Fruit": "Drakenfruit",
     "Papa Seca": "Papa Seca", "Pork Ribs": "Varkensribbetjes", "Peanuts": "Pinda's", "Ají Panca": "Ají Panca",
   },
 }
