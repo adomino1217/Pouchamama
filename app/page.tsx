@@ -3,14 +3,14 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Leaf, Mountain, Sparkles, Recycle, Heart } from "lucide-react"
+import { Leaf, Mountain, Sparkles, Recycle, Heart, Utensils } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ProductCard } from "@/components/product-card"
 import { ProductModal } from "@/components/product-modal"
 import { products, type Product } from "@/lib/products"
 import { useLanguage } from "@/lib/language-context"
 
-const featureIcons = [Leaf, Sparkles, Mountain, Recycle, Heart]
+const featureIcons = [Leaf, Sparkles, Mountain, Recycle, Heart, Utensils]
 
 export default function HomePage() {
   const { t } = useLanguage()
@@ -99,8 +99,8 @@ export default function HomePage() {
       <div className="h-[3px]" style={{ backgroundColor: "#f5c200" }} />
 
       {/* ─── FEATURES STRIP ─── */}
-      <section className="py-12 px-6" style={{ backgroundColor: "#9e2f08" }}>
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8">
+      <section className="py-12 px-6" style={{ backgroundColor: "#0d3320" }}>
+        <div className="max-w-5xl mx-auto grid grid-cols-3 md:grid-cols-6 gap-6 md:gap-8">
           {t.home.features.map((f, i) => {
             const Icon = featureIcons[i]
             return (

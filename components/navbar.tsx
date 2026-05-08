@@ -25,7 +25,7 @@ export function Navbar() {
   return (
     <header
       className="sticky top-0 z-50 backdrop-blur border-b"
-      style={{ backgroundColor: "rgba(193,59,10,0.97)", borderColor: "rgba(245,194,0,0.3)" }}
+      style={{ backgroundColor: "rgba(13,51,32,0.97)", borderColor: "rgba(245,194,0,0.3)" }}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">

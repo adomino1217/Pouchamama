@@ -2,28 +2,28 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Leaf, Mountain, Heart, Recycle, Award } from "lucide-react"
+import { Leaf, Mountain, Heart, Recycle, Award, Utensils } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/lib/language-context"
 
-const valueIcons = [Leaf, Mountain, Heart, Recycle, Award]
+const valueIcons = [Leaf, Mountain, Heart, Recycle, Award, Utensils]
 
 export default function AboutPage() {
   const { t } = useLanguage()
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-16 md:py-24 px-4 relative overflow-hidden">
+      <section className="py-16 md:py-24 px-4 relative overflow-hidden" style={{ backgroundColor: "#0d3320" }}>
         <div className="absolute top-20 right-10 w-64 h-64 bg-leaf-green/10 rounded-full blur-3xl" />
         <div className="absolute bottom-10 left-10 w-48 h-48 bg-sun-yellow/10 rounded-full blur-3xl" />
 
         <div className="max-w-4xl mx-auto text-center relative">
-          <h1 className="font-display font-bold text-3xl md:text-5xl text-foreground mb-6">
+          <h1 className="font-display font-bold text-3xl md:text-5xl mb-6" style={{ color: "#F7F2E4" }}>
             {t.about.heroTitle1}
             <br />
-            <span className="text-primary">{t.about.heroTitle2}</span>
+            <span style={{ color: "#f5c200" }}>{t.about.heroTitle2}</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+          <p className="text-lg md:text-xl leading-relaxed" style={{ color: "rgba(247,242,228,0.7)" }}>
             {t.about.heroSub}
           </p>
         </div>
@@ -56,22 +56,22 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-16 md:py-24 px-4">
+      <section className="py-16 md:py-24 px-4" style={{ backgroundColor: "#0d3320" }}>
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-display font-bold text-2xl md:text-3xl text-foreground text-center mb-12">
+          <h2 className="font-display font-bold text-2xl md:text-3xl text-center mb-12" style={{ color: "#F7F2E4" }}>
             {t.about.valuesTitle}
           </h2>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {t.about.values.map((value, idx) => {
               const Icon = valueIcons[idx]
               return (
-                <div key={idx} className="bg-card rounded-2xl p-6 shadow-sm text-center">
-                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-leaf-green/20 flex items-center justify-center">
-                    <Icon className="w-7 h-7 text-line-green" strokeWidth={1.5} />
+                <div key={idx} className="rounded-2xl p-6 text-center" style={{ backgroundColor: "rgba(255,255,255,0.07)", border: "1px solid rgba(245,194,0,0.2)" }}>
+                  <div className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ backgroundColor: "rgba(245,194,0,0.15)" }}>
+                    <Icon className="w-7 h-7" style={{ color: "#f5c200" }} strokeWidth={1.5} />
                   </div>
-                  <h3 className="font-display font-bold text-foreground mb-2">{value.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{value.desc}</p>
+                  <h3 className="font-display font-bold mb-2" style={{ color: "#F7F2E4" }}>{value.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "rgba(247,242,228,0.65)" }}>{value.desc}</p>
                 </div>
               )
             })}
