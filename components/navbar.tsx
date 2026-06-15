@@ -54,7 +54,7 @@ export function Navbar() {
           {/* Cart & Mobile Menu */}
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            <Link href="/shop" className="relative">
+            <Link href="/cart" className="relative">
               <Button variant="ghost" size="icon" className="rounded-full" style={{ color: "#F7F2E4" }}>
                 <ShoppingCart className="w-5 h-5" />
                 {totalItems > 0 && (

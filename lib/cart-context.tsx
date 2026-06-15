@@ -1,11 +1,12 @@
 "use client"
 
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 
 export interface CartItem {
   id: string
   name: string
   price: number
+  pricePEN: number
   quantity: number
   image: string
 }
@@ -18,12 +19,33 @@ interface CartContextType {
   clearCart: () => void
   totalItems: number
   totalPrice: number
+  totalPricePEN: number
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
+const STORAGE_KEY = "pouchamama_cart"
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
+  const [hydrated, setHydrated] = useState(false)
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      if (stored) setItems(JSON.parse(stored))
+    } catch {}
+    setHydrated(true)
+  }, [])
+
+  // Persist to localStorage whenever items change
+  useEffect(() => {
+    if (!hydrated) return
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
+    } catch {}
+  }, [items, hydrated])
 
   const addItem = (item: Omit<CartItem, "quantity">) => {
     setItems((prev) => {
@@ -51,6 +73,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0)
   const totalPrice = items.reduce((sum, i) => sum + i.price * i.quantity, 0)
+  const totalPricePEN = items.reduce((sum, i) => sum + i.pricePEN * i.quantity, 0)
 
   return (
     <CartContext.Provider
@@ -62,6 +85,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         totalItems,
         totalPrice,
+        totalPricePEN,
       }}
     >
       {children}

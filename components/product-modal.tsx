@@ -65,6 +65,7 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
       id: `${product.id}${activeSize ? `-${activeSize.weight}` : ""}`,
       name: `${product.name}${sizeSuffix}`,
       price: displayPrice,
+      pricePEN: displayPEN,
       image: product.image,
     })
     onClose()
