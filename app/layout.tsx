@@ -4,6 +4,7 @@ import { Inter, Syne } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { Navbar } from "@/components/navbar"
+import { SplashOverlay } from "@/components/splash-overlay"
 import { CartProvider } from "@/lib/cart-context"
 import { LanguageProvider } from "@/lib/language-context"
 
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className={`${inter.className} ${syne.variable} antialiased`}>
         <LanguageProvider>
           <CartProvider>
+            <SplashOverlay />
             <Navbar />
             <main>{children}</main>
           </CartProvider>
