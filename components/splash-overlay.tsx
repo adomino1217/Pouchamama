@@ -46,13 +46,13 @@ export function SplashOverlay() {
           className="font-display font-bold leading-tight mb-3"
           style={{ fontSize: "clamp(1.4rem, 4vw, 1.9rem)", color: "#F7F2E4", letterSpacing: "-0.02em" }}
         >
-          Available soon
+          Orders available
         </h2>
         <p
           className="font-display font-semibold mb-10"
           style={{ fontSize: "clamp(1rem, 3vw, 1.25rem)", color: "#f5c200" }}
         >
-          in Huaraz
+          for pickup in Huaraz
         </p>
 
         {/* Dismiss button */}
