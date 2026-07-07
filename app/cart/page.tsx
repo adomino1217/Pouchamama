@@ -8,10 +8,28 @@ import { useCart } from "@/lib/cart-context"
 import { useLanguage } from "@/lib/language-context"
 import { toPEN } from "@/lib/products"
 
+const WHATSAPP_NUMBER = "12035367236"
+
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, totalItems, totalPrice, totalPricePEN } = useCart()
   const { language } = useLanguage()
   const showPEN = language === "es"
+
+  const handleWhatsAppCheckout = () => {
+    const lines = items.map(
+      (item) => `• ${item.name} x${item.quantity} — ${showPEN ? toPEN(item.pricePEN * item.quantity) : `$${(item.price * item.quantity).toFixed(2)}`}`
+    )
+    const total = showPEN ? toPEN(totalPricePEN) : `$${totalPrice.toFixed(2)}`
+    const message = [
+      "Hi! I'd like to place an order for pickup in Huaraz:",
+      "",
+      ...lines,
+      "",
+      `Total: ${total}`,
+    ].join("\n")
+
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank")
+  }
 
   if (items.length === 0) {
     return (
@@ -115,10 +133,7 @@ export default function CartPage() {
         </div>
 
         {/* Summary */}
-        <div
-          className="rounded-2xl p-6"
-          style={{ backgroundColor: "#0d3320" }}
-        >
+        <div className="rounded-2xl p-6" style={{ backgroundColor: "#0d3320" }}>
           <div className="flex justify-between items-center mb-2">
             <span className="font-display text-sm opacity-60" style={{ color: "#F7F2E4" }}>Subtotal</span>
             <span className="font-display font-bold text-lg" style={{ color: "#F7F2E4" }}>
@@ -126,16 +141,16 @@ export default function CartPage() {
             </span>
           </div>
           <p className="text-xs mb-6 opacity-40 font-display" style={{ color: "#F7F2E4" }}>
-            Shipping calculated at checkout
+            Pickup in Huaraz — we'll confirm via WhatsApp
           </p>
 
           <Button
             size="lg"
             className="w-full font-display font-bold text-base rounded-full"
             style={{ backgroundColor: "#f5c200", color: "#0d3320" }}
-            onClick={() => alert("Checkout coming soon!")}
+            onClick={handleWhatsAppCheckout}
           >
-            Proceed to Checkout
+            Order via WhatsApp
           </Button>
 
           <button
