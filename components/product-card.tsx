@@ -14,7 +14,7 @@ interface ProductCardProps {
 }
 
 // Products that have real photos — graphic card for everything else
-const PHOTO_PRODUCTS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "13", "14", "15", "16", "17", "18", "19"])
+const PHOTO_PRODUCTS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "14", "15", "16", "17", "18", "19"])
 
 // Graphic card color themes for products without photos
 const cardThemes: Record<string, { bg: string; text: string; accent: string; sub: string; shape: string }> = {
@@ -23,7 +23,7 @@ const cardThemes: Record<string, { bg: string; text: string; accent: string; sub
   "4": { bg: "#3D1C0A", text: "#FFE4CC", accent: "#F5C200", sub: "rgba(255,228,204,0.55)", shape: "rgba(245,194,0,0.08)" },
   "11": { bg: "#5C2E00", text: "#FDECC8", accent: "#F5C200", sub: "rgba(253,236,200,0.55)", shape: "rgba(245,194,0,0.09)" },
   "12": { bg: "#8B1A0A", text: "#FFE8D6", accent: "#F5C200", sub: "rgba(255,232,214,0.55)", shape: "rgba(245,194,0,0.1)" },
-  "13": { bg: "#6B1060", text: "#FFE8F8", accent: "#F5C200", sub: "rgba(255,232,248,0.55)", shape: "rgba(245,194,0,0.1)" },
+  : { bg: "#6B1060", text: "#FFE8F8", accent: "#F5C200", sub: "rgba(255,232,248,0.55)", shape: "rgba(245,194,0,0.1)" },
 }
 
 const fallbackTheme = { bg: "#0d3320", text: "#F7F2E4", accent: "#F5C200", sub: "rgba(247,242,228,0.55)", shape: "rgba(245,194,0,0.08)" }

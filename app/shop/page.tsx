@@ -15,9 +15,9 @@ type DietFilter = "vegan" | "vegetarian" | "high-protein"
 type AllergenFilter = "dairy" | "nuts" | "soy" | "coconut"
 type HungerFilter = "all" | "meals" | "snacks"
 
-const SNACK_IDS = new Set(["8", "10", "12", "13"])
+const SNACK_IDS = new Set(["8", "10", "12"])
 
-const PHOTO_IDS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "13", "14", "15", "16", "17", "18", "19"])
+const PHOTO_IDS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "14", "15", "16", "17", "18", "19"])
 
 const MAX_CALORIES = Math.ceil(Math.max(...products.map(p => p.calories)) / 100) * 100
 
