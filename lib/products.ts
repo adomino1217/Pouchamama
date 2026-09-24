@@ -214,7 +214,7 @@ export const products: Product[] = [
     id: "7",
     name: "Escabeche de Pollo",
     description: "Classic Peruvian pickled chicken with sweet potato, rice, yellow pepper, and egg. Bold, tangy, and deeply satisfying.",
-    price: 10.99,
+    price: 11.99,
     pricePEN: 40,
     image: "/escabeche-de-pollo.jpg",
     category: "high-protein",
