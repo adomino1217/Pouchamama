@@ -13,11 +13,12 @@ import { interpolate } from "@/lib/i18n"
 
 type DietFilter = "vegan" | "vegetarian" | "high-protein"
 type AllergenFilter = "dairy" | "nuts" | "soy" | "coconut"
-type HungerFilter = "all" | "meals" | "snacks"
+type HungerFilter = "all" | "meals" | "snacks" | "breakfasts"
 
-const SNACK_IDS = new Set(["8", "10", "12"])
+const SNACK_IDS = new Set(["8", "10", "12", "21"])
+const BREAKFAST_IDS = new Set(["17", "18", "19", "20"])
 
-const PHOTO_IDS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "14", "15", "16", "17", "18", "19"])
+const PHOTO_IDS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "14", "15", "16", "17", "18", "19", "21"])
 
 const MAX_CALORIES = Math.ceil(Math.max(...products.map(p => p.calories)) / 100) * 100
 
@@ -70,10 +71,11 @@ export default function ShopPage() {
     return products.filter((product) => {
       // How Hungry filter
       if (hungerFilter === "snacks" && !SNACK_IDS.has(product.id)) return false
-      if (hungerFilter === "meals" && SNACK_IDS.has(product.id)) return false
+      if (hungerFilter === "breakfasts" && !BREAKFAST_IDS.has(product.id)) return false
+      if (hungerFilter === "meals" && (SNACK_IDS.has(product.id) || BREAKFAST_IDS.has(product.id))) return false
 
       // Diet filter
-      if (dietFilters.length > 0 && !dietFilters.includes(product.category)) {
+      if (dietFilters.length > 0 && !dietFilters.includes(product.category as DietFilter)) {
         return false
       }
 
@@ -103,6 +105,8 @@ export default function ShopPage() {
   const showingLabel =
     hungerFilter === "snacks"
       ? interpolate(t.shop.showingSnacks, filteredProducts.length)
+      : hungerFilter === "breakfasts"
+      ? interpolate(t.shop.showingBreakfasts, filteredProducts.length)
       : hungerFilter === "meals"
       ? interpolate(t.shop.showingMeals, filteredProducts.length)
       : interpolate(t.shop.showingAll, filteredProducts.length)
@@ -154,9 +158,9 @@ export default function ShopPage() {
               {/* How Hungry? */}
               <div className="mb-6">
                 <h3 className="font-display font-semibold text-sm text-foreground mb-3">{t.shop.howHungry}</h3>
-                <div className="flex gap-2">
-                  {(["all", "meals", "snacks"] as HungerFilter[]).map((option) => {
-                    const label = option === "all" ? t.shop.all : option === "meals" ? t.shop.meals : t.shop.snacks
+                <div className="flex flex-wrap gap-2">
+                  {(["all", "meals", "breakfasts", "snacks"] as HungerFilter[]).map((option) => {
+                    const label = option === "all" ? t.shop.all : option === "meals" ? t.shop.meals : option === "breakfasts" ? t.shop.breakfasts : t.shop.snacks
                     return (
                     <button
                       key={option}
@@ -236,7 +240,7 @@ export default function ShopPage() {
               <div className="flex flex-wrap gap-2 mb-6">
                 {hungerFilter !== "all" && (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-leaf-green/20 text-line-green rounded-full text-sm font-display">
-                    {hungerFilter === "meals" ? t.shop.meals : t.shop.snacks}
+                    {hungerFilter === "meals" ? t.shop.meals : hungerFilter === "breakfasts" ? t.shop.breakfasts : t.shop.snacks}
                     <button onClick={() => setHungerFilter("all")} className="hover:text-primary">
                       <X className="w-3 h-3" />
                     </button>

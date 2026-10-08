@@ -22,7 +22,7 @@ export interface Product {
   price: number
   pricePEN: number
   image: string
-  category: "vegan" | "vegetarian" | "high-protein"
+  category: "vegan" | "vegetarian" | "high-protein" | "breakfast"
   calories: number
   protein: number
   carbs: number
@@ -298,10 +298,10 @@ export const products: Product[] = [
     id: "17",
     name: "Pancakes",
     description: "Fluffy Andean pancakes made with quinoa flour and highland grains. Light, nourishing, and ready in minutes — the perfect trail breakfast.",
-    price: 11.99,
-    pricePEN: 40,
+    price: 9.00,
+    pricePEN: 28,
     image: "/pancakes.jpg",
-    category: "vegetarian",
+    category: "breakfast",
     calories: 381,
     protein: 18,
     carbs: 59,
@@ -317,10 +317,10 @@ export const products: Product[] = [
     id: "18",
     name: "Huevos Rancheros",
     description: "Eggs nestled in a rich tomato-pepper sauce with Andean herbs. A bold, protein-packed breakfast that fuels long mountain days.",
-    price: 11.99,
-    pricePEN: 40,
+    price: 9.00,
+    pricePEN: 28,
     image: "/huevos-rancheros.jpg",
-    category: "vegetarian",
+    category: "breakfast",
     calories: 311,
     protein: 19,
     carbs: 20,
@@ -337,10 +337,10 @@ export const products: Product[] = [
     id: "19",
     name: "Huevos Rancheros con Ají",
     description: "Our classic huevos rancheros with a fiery kick of Andean ají amarillo. The same satisfying breakfast — dialed up for spice lovers.",
-    price: 11.99,
-    pricePEN: 40,
+    price: 9.00,
+    pricePEN: 28,
     image: "/huevos-rancheros-aji.jpg",
-    category: "vegetarian",
+    category: "breakfast",
     calories: 315,
     protein: 19,
     carbs: 21,
@@ -352,6 +352,46 @@ export const products: Product[] = [
       { name: "Ají Amarillo", region: "Huaraz", x: 32, y: 42 },
       { name: "Red Onion", region: "Arequipa", x: 48, y: 82 },
       { name: "Cilantro", region: "Lima", x: 28, y: 52 },
+    ],
+  },
+  {
+    id: "20",
+    name: "Kiwicha Oatmeal",
+    description: "Kiwicha-based oatmeal with freeze-dried Andean fruits. Warming, nutritious, and ready in minutes — a nourishing highland breakfast.",
+    price: 9.00,
+    pricePEN: 28,
+    image: "/kiwicha-oatmeal.jpg",
+    category: "breakfast",
+    calories: 320,
+    protein: 12,
+    carbs: 58,
+    fat: 5,
+    allergens: [],
+    ingredients: [
+      { name: "Kiwicha (Amaranth)", region: "Cusco", x: 50, y: 60 },
+      { name: "Andean Fruits", region: "Ancash", x: 32, y: 44 },
+      { name: "Andean Honey", region: "Huánuco", x: 40, y: 45 },
+    ],
+  },
+  {
+    id: "21",
+    name: "Charqui de Res",
+    description: "Traditional Andean beef jerky — sun-dried and seasoned with native spices. Packed with 36g of protein per bag, it's the original high-altitude trail snack.",
+    price: 10.50,
+    pricePEN: 35,
+    image: "/charqui.jpg",
+    category: "high-protein",
+    calories: 210,
+    protein: 36,
+    carbs: 4,
+    fat: 3,
+    allergens: [],
+    ingredients: [
+      { name: "Beef", region: "Arequipa", x: 45, y: 85 },
+      { name: "Sea Salt", region: "Ancash", x: 32, y: 44 },
+    ],
+    sizes: [
+      { weight: "45g", calories: 210, protein: 36, carbs: 4, fat: 3, price: 10.50, pricePEN: 35 },
     ],
   },
 ]

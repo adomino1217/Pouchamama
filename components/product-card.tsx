@@ -14,7 +14,7 @@ interface ProductCardProps {
 }
 
 // Products that have real photos — graphic card for everything else
-const PHOTO_PRODUCTS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "14", "15", "16", "17", "18", "19"])
+const PHOTO_PRODUCTS = new Set(["1", "2", "3", "4", "7", "8", "9", "10", "11", "14", "15", "16", "17", "18", "19", "21"])
 
 // Graphic card color themes for products without photos
 const cardThemes: Record<string, { bg: string; text: string; accent: string; sub: string; shape: string }> = {
@@ -47,7 +47,7 @@ export function ProductCard({ product, onViewDetails, heroSize = false }: Produc
   const displayCalories = activeSize ? activeSize.calories : product.calories
 
   const ingNames = product.ingredients?.map(i => (ingredientNames[language] as Record<string, string>)[i.name] ?? i.name).slice(0, 3) || []
-  const categoryLabel = product.category === "vegan" ? t.product.categoryVegan : product.category === "vegetarian" ? t.product.categoryVegetarian : t.product.categoryHighProtein
+  const categoryLabel = product.category === "vegan" ? t.product.categoryVegan : product.category === "vegetarian" ? t.product.categoryVegetarian : product.category === "breakfast" ? t.product.categoryBreakfast : t.product.categoryHighProtein
   const aspectRatio = heroSize ? "3/4" : "4/5"
 
   const SizePicker = ({ textColor, activeTextColor, activeBg }: { textColor: string; activeTextColor: string; activeBg: string }) => (

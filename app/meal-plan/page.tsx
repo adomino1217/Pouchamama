@@ -131,6 +131,7 @@ export default function MealPlanPage() {
               id: product.id,
               name: product.name,
               price: product.price,
+              pricePEN: product.pricePEN,
               image: product.image,
             })
           }
