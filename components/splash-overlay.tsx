@@ -54,6 +54,12 @@ export function SplashOverlay() {
         >
           for pickup in Huaraz
         </p>
+        <p
+          className="font-display font-semibold mb-10"
+          style={{ fontSize: "clamp(1rem, 3vw, 1.25rem)", color: "#f5c200" }}
+        >
+          and delivery throughout Peru
+        </p>
 
         {/* Dismiss button */}
         <button
